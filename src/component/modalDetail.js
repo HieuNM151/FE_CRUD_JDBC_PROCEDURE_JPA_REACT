@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 
 const EmpDetailModal = ({ show, handleClose, idnv }) => {
     const [emplData, setEmplData] = useState({});
-    const { idnv: empId } = useParams(); // Lấy giá trị của idnv từ URL
 
     useEffect(() => {
         if (idnv && idnv.trim() !== "") { // Kiểm tra idnv không phải null hoặc chuỗi rỗng

@@ -32,7 +32,7 @@ const EmpCreateModal = ({ show, handleClose, handleAddEmployeeModal, handleReloa
 
     const handleValidation = () => {
         if (name.trim() === "" || date.trim() === "" || sdt.trim() === "" || diachi.trim() === "") {
-            toast.error('Vui lòng điền đầy đủ thông tin');
+            toast.warning('Vui lòng điền đầy đủ thông tin');
             return false;
         }
         return true;

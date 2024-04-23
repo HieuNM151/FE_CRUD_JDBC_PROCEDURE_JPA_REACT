@@ -46,7 +46,7 @@ const EmpEditModal = ({ show, handleClose, handleReloadData, idnv }) => {
 
     const handleValidation = () => {
         if (name.trim() === "" || namsinh.trim() === "" || sdt.trim() === "" || diachi.trim() === "") {
-            toast.error('Vui lòng điền đầy đủ thông tin');
+            toast.warning('Vui lòng điền đầy đủ thông tin');
             return false;
         }
         return true;

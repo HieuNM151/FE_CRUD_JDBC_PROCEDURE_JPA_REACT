@@ -46,6 +46,7 @@ const EmpListing = () => {
         setSelectedItemIdLuong(id);
         setShowLuongModal(true);
     };
+
     const handleCloseEditModal = () => setShowEditModal(false);
     const handleCloseDetailModal = () => setShowDetailModal(false);
     const handleCloseLuongModal = () => setShowLuongModal(false);

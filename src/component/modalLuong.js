@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import ModalHuy from "./modalHuyLuong";
-
+import EditLuongModal from "./modalEditLuong";
 
 const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showModalEditLuong, setShowModalEditLuong] = useState(false);
 
     const [luongList, setLuongList] = useState([]);
 
+    const [tongluong, settongluong] = useState("");
     const [theloai, settheloai] = useState("");
     const [mucluong, setmucluong] = useState("");
     const [ngaybatdau, setngaybatdau] = useState("");
@@ -16,7 +18,6 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
     const [trangthai, settrangthai] = useState("Hoạt động");
 
     const [selectedItemId, setSelectedItemId] = useState(null);
-
     const [validationName, setValidationName] = useState(false);
     const [validationDate, setValidationDate] = useState(false);
     const [validationPhone, setValidationPhone] = useState(false);
@@ -32,7 +33,7 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
 
         return formattedValue;
     };
-    
+
     const handleRefresh = () => {
         settheloai('');
         setmucluong('');
@@ -46,6 +47,7 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
                 .then((res) => res.json())
                 .then((resp) => {
                     setLuongList(resp.luongList);
+                    settongluong(resp.tongLuong);
                 })
                 .catch((err) => {
                     console.log(err.message);
@@ -53,16 +55,34 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
         }
     };
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        return new Date(dateString).toLocaleDateString('en-GB', options);
+    };
+
     useEffect(() => {
         fetchData();
     }, [idnv]);
-
+    
+   
     const RemoveFunction = (id) => {
         setSelectedItemId(id);
         setShowModal(true);
     };
 
-    const handleCloseModal = () => setShowModal(false);
+    const handleShowEditModal = (id) => {
+        setSelectedItemId(id);
+        setShowModalEditLuong(true);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
+
+    const handleCloseModalEdit = () => {
+        fetchData();
+        setShowModalEditLuong(false);
+    };
 
     const handleDelete = () => {
         fetch(`http://localhost:8081/api/v1/luong/delete/${selectedItemId}`, {
@@ -90,7 +110,7 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
 
     const handleValidation = () => {
         if (theloai.trim() === "" || mucluong.trim() === "" || ngaybatdau.trim() === "") {
-            toast.error('Vui lòng điền đầy đủ thông tin');
+            toast.warning('Vui lòng điền đầy đủ thông tin');
             return false;
         }
         return true;
@@ -100,7 +120,7 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
         if (handleValidation()) {
             const formData = {
                 theloai: theloai,
-                mucluong: mucluong.replace(/\./g, ''),
+                mucluong: mucluong,
                 ngaybatdau: ngaybatdau,
                 ngayketthuc: ngayketthuc,
                 trangthai: trangthai === "Hoạt động" ? true : false
@@ -117,8 +137,7 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
                     if (response.ok) {
                         console.log("Thêm Lương cho nhân viên thành công");
                         toast.success("Thêm Lương cho nhân viên thành công");
-                        handleRefresh()
-                        // handleClose();
+                        handleRefresh();
                         fetchData();
                     } else {
                         console.error("Thêm Lương cho nhân viên thất bại");
@@ -179,12 +198,12 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
                                     <div className="from-group">
                                         <label className="fw-bold">Trạng thái</label>
                                         <div>
-                                            <input type="radio" id="nam" name="gender" value="Hoạt động" checked={trangthai === "Hoạt động"} className="form-check-input" onChange={handleGenderChange} />
-                                            <label htmlFor="nam" className="form-check-label">Hoạt động</label>
+                                            <input type="radio" id="hoatdong" name="status" value="Hoạt động" checked={trangthai === "Hoạt động"} className="form-check-input" onChange={handleGenderChange} />
+                                            <label htmlFor="hoatdong" className="form-check-label">Hoạt động</label>
                                         </div>
                                         <div>
-                                            <input type="radio" id="nu" name="gender" value="Ngừng hoạt động" checked={trangthai === "Ngừng hoạt động"} className="form-check-input" onChange={handleGenderChange} />
-                                            <label htmlFor="nu" className="form-check-label">Ngừng hoạt động</label>
+                                            <input type="radio" id="ngung" name="status" value="Ngừng hoạt động" checked={trangthai === "Ngừng hoạt động"} className="form-check-input" onChange={handleGenderChange} />
+                                            <label htmlFor="ngung" className="form-check-label">Ngừng hoạt động</label>
                                         </div>
                                     </div>
                                 </div>
@@ -217,11 +236,11 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
                                             <td>{index + 1}</td>
                                             <td>{luong.theloai}</td>
                                             <td>{formatMoney(luong.mucluong)}</td>
-                                            <td>{luong.ngaybatdau}</td>
-                                            <td>{luong.ngayketthuc}</td>
+                                            <td>{formatDate(luong.ngaybatdau)}</td>
+                                            <td>{formatDate(luong.ngayketthuc)}</td>
                                             <td>{luong.trangthai ? "Hoạt động" : "Ngừng hoạt động"}</td>
                                             <td>
-                                                <button className="btn btn-info">Sửa</button>
+                                                <button onClick={() => handleShowEditModal(luong.id, luong.trangthai)} className="btn btn-info">Sửa</button>
                                                 <button onClick={() => RemoveFunction(luong.id)} className="btn btn-danger">Xóa</button>
 
                                             </td>
@@ -231,17 +250,17 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
                             </table>
 
                         </div>
+                        <h3>Tổng lương của nhân viên: {formatMoney(tongluong)}</h3>
                     </div>
                     <ModalHuy show={showModal} handleClose={handleCloseModal} handleDelete={handleDelete} />
+                    <EditLuongModal idnv={selectedItemId} show={showModalEditLuong} handleClose={handleCloseModalEdit} trangThai={trangthai} />
+
                 </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Đóng
                 </Button>
-                {/* <Button variant="success" onClick={handleAddEmployee}>
-                    Thêm lương
-                </Button> */}
             </Modal.Footer>
         </Modal>
     );

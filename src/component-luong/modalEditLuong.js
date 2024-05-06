@@ -41,6 +41,7 @@ const EditLuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
         setngayketthuc('');
         settrangthai('Hoạt động');
     };
+    
     const fetchData = () => {
         if (idnv && idnv.trim() !== "") {
             fetch(`http://localhost:8081/api/v1/luong/details?id=${idnv}`)

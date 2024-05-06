@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
-import ModalHuy from "./modalHuyLuong";
-import EditLuongModal from "./modalEditLuong";
+import ModalHuy from "../component-luong/modalHuyLuong";
+import EditLuongModal from "../component-luong/modalEditLuong";
 
 const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
     const [showModal, setShowModal] = useState(false);
@@ -56,8 +56,12 @@ const LuongModal = ({ show, handleClose, handleReloadData, idnv }) => {
     };
 
     const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-        return new Date(dateString).toLocaleDateString('en-GB', options);
+        if (dateString) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            return new Date(dateString).toLocaleDateString('en-GB', options);
+        } else {
+            return "Chưa kết thúc"; // or return ""; for blank
+        }
     };
 
     useEffect(() => {

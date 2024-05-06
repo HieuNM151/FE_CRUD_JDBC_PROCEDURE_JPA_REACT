@@ -1,12 +1,12 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import EmpListing from './view/EmpListing';
-import EmpCreate from './view/EmpCreate';
-import EmpDetail from './view/EmpDetail';
-import EmpEditModal from './component/modalEdit'; 
-import EmpDetailModal from './component/modalDetail';
-import EmpCreateModal from './component/modalCreate';
-import LuongList from './view/luongListing';
+import EmpCreate from './view-drop/EmpCreate';
+import EmpDetail from './view-drop/EmpDetail';
+import EmpEditModal from './component-nhan-vien/modalEdit'; 
+import EmpDetailModal from './component-nhan-vien/modalDetail';
+import EmpCreateModal from './component-nhan-vien/modalCreate';
+import DuAnList from './view/DuAnListing';
 import Header from './component/header';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -26,7 +26,7 @@ function App() {
           <Route path='/employee/create' element={<EmpCreateModal />} />
           <Route path='/employee/detail/:idnv' element={<EmpDetailModal />} />
           <Route path='/employee/edit/:idnv' element={<EmpEditModal />} />
-          <Route path='/luong' element={<LuongList />} />
+          <Route path='/du-an' element={<DuAnList />} />
         </Routes>
       </BrowserRouter>
       </Row>

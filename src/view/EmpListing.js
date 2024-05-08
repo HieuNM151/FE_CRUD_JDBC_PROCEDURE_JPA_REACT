@@ -8,6 +8,7 @@ import EmpEditModal from "../component-nhan-vien/modalEdit";
 import EmpDetailModal from "../component-nhan-vien/modalDetail";
 import LuongModal from "../component-luong/modalLuong";
 import NvDuAnModal from "../component-nv-da/modalNvDuAn";
+import ExportExcelButton from "../component-nhan-vien/ExportExcelButton";
 import icon from "../img/Coupon.png";
 import iconCL from "../img/Arrow-Left.png";
 import iconCR from "../img/Arrow-Right.png";
@@ -168,7 +169,7 @@ const EmpListing = () => {
         <div className="container">
             <div className="card">
                 <h2 className="card-title">Danh sách nhân viên</h2>
-
+                   
                 <div className="row" style={{ display: "flex", marginBottom: "20px" }}>
                     <div className="col-3">
                         <input
@@ -221,7 +222,9 @@ const EmpListing = () => {
                             <input value={dateTo} onChange={(e) => { setDateTo(e.target.value); setPageNumber(0); }} className="form-control" type="date"></input>
                         </div>
                     </div>
-                    
+                    <div className="col-6" style={{ position: "absolute",  right: "0", display: "flex", justifyContent: "flex-end" }}>
+                        <ExportExcelButton />
+                    </div>
                 </div>
             </div>
             <div className="card-body">
@@ -254,7 +257,7 @@ const EmpListing = () => {
                                         <button onClick={() => RemoveFunction(item.id)} className="btn btn-danger">Xóa</button>
                                         <button onClick={() => handleShowDetailModal(item.id)} className="btn btn-warning">Chi tiết</button>
                                         <button onClick={() => handleShowLuongModal(item.id)} className="btn btn-outline-info"><img src={icon} /></button>
-                                        <button onClick={() => handleShowNvDuAnModal(item.id)} className="btn btn-outline-secondary">  <img src={iconCV} alt="icon" style={{width: '24px', height: '24px'}}/></button>
+                                        <button onClick={() => handleShowNvDuAnModal(item.id)} className="btn btn-outline-secondary">  <img src={iconCV} alt="icon" style={{ width: '24px', height: '24px' }} /></button>
                                     </td>
                                 </tr>
                             ))}

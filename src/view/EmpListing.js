@@ -13,6 +13,8 @@ import icon from "../img/Coupon.png";
 import iconCL from "../img/Arrow-Left.png";
 import iconCR from "../img/Arrow-Right.png";
 import iconCV from "../img/Streamline.png";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 const EmpListing = () => {
     const [emplData, setEmplData] = useState([]);
@@ -169,7 +171,7 @@ const EmpListing = () => {
         <div className="container">
             <div className="card">
                 <h2 className="card-title">Danh sách nhân viên</h2>
-                   
+
                 <div className="row" style={{ display: "flex", marginBottom: "20px" }}>
                     <div className="col-3">
                         <input
@@ -222,9 +224,10 @@ const EmpListing = () => {
                             <input value={dateTo} onChange={(e) => { setDateTo(e.target.value); setPageNumber(0); }} className="form-control" type="date"></input>
                         </div>
                     </div>
-                    <div className="col-6" style={{ position: "absolute",  right: "0", display: "flex", justifyContent: "flex-end" }}>
-                        <ExportExcelButton />
-                    </div>
+                    <DropdownButton className="col-6" id="dropdown-basic-button" style={{ position: "absolute", right: "50px", display: "flex", justifyContent: "flex-end" }} title="Excel">
+                        <Dropdown.Item ><ExportExcelButton /></Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Import Excel</Dropdown.Item>
+                    </DropdownButton>
                 </div>
             </div>
             <div className="card-body">

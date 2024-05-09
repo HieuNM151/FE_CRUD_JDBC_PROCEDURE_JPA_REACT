@@ -19,7 +19,7 @@ const ExportExcelButton = () => {
     }
 
     return (
-        <button className="btn btn-outline-info" onClick={downloadExcel}>Export to Excel</button>
+        <a onClick={downloadExcel}>Export to Excel</a>
     );
 }
 
